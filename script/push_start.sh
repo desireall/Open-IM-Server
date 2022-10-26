@@ -30,7 +30,7 @@ done
 
 sleep 3
 #Check launched service process
-check=$(ps aux | grep -w ./${push_name} | grep -v grep | wc -l)
+check=$(ps -ef | grep -w ./${push_name} | grep -v grep | wc -l)
 if [ $check -ge 1 ]; then
   newPid=$(ps aux | grep -w ./${push_name} | grep -v grep | awk '{print $2}')
   ports=$(netstat -netulp | grep -w ${newPid} | awk '{print $4}' | awk -F '[:]' '{print $NF}')
