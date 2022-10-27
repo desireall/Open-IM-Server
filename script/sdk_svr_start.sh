@@ -28,12 +28,13 @@ cd ${sdk_server_binary_root}
 
 #Check launched service process
 sleep 3
-check=$(ps aux | grep -w ./${sdk_server_name} | grep -v grep | wc -l)
+check=$(ps -ef | grep -w ./${sdk_server_name} | grep -v grep | wc -l)
 allPorts=""
 if [ $check -ge 1 ]; then
-  allNewPid=$(ps aux | grep -w ./${sdk_server_name} | grep -v grep | awk '{print $2}')
+  allNewPid=$(ps -ef | grep -w ./${sdk_server_name} | grep -v grep | awk '{print $2}')
   for i in $allNewPid; do
-    ports=$(netstat -netulp | grep -w ${i} | awk '{print $4}' | awk -F '[:]' '{print $NF}')
+#    ports=$(netstat -netulp | grep -w ${i} | awk '{print $4}' | awk -F '[:]' '{print $NF}')
+    ports=$(netstat | grep -w ${i} | awk '{print $4}' | awk -F '[:]' '{print $NF}')
       allPorts=${allPorts}"$ports "
   done
   echo -e ${SKY_BLUE_PREFIX}"SERVICE START SUCCESS "${COLOR_SUFFIX}
